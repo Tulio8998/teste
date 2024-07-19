@@ -52,7 +52,7 @@ public class Principal {
             	System.out.println("001. ADM Visualizar Entradas");
             	System.out.println("002. ADM Sobreescrever Entradas");
             	System.out.println("003. ADM Deletar Entradas");
-            	System.out.println("002. ADM Continuar Escrever Entradas");
+            	System.out.println("004. ADM Continuar Escrever Entradas");
             }
             System.out.println("1. Adicionar Entrada");
             System.out.println("2. Visualizar Entradas");

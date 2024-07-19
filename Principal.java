@@ -1,3 +1,5 @@
+package ATV1;
+
 import java.util.Scanner;
 
 public class Principal {
@@ -6,8 +8,11 @@ public class Principal {
         Diario diario = new Diario();
         Usuario usuarioLogado = null;
         boolean autenticado_usuario = false;
-        
+        boolean rodando = true;
+       
+    while(rodando){
         while (!autenticado_usuario) {
+        	System.out.println("Olá, seja bem vindo ao Diário Virtual!");
 			System.out.println("1. Registrar novo usuário");
 			System.out.println("2. Login");
 			System.out.print("Escolha uma opção: ");
@@ -19,41 +24,81 @@ public class Principal {
 				System.out.print("Informe a senha: ");
 				String senha = scanner.nextLine();
 				diario.registrarUsuario(username, senha, false);
-				System.out.println("Usuário registrado com sucesso!\n");
+				System.out.println("\nUsuário registrado com sucesso!\n");
 			} 
 			else if (opcao == 2) {
-				System.out.print("Nome de usuário: ");
+				System.out.print("\nNome de usuário: ");
 				String username = scanner.nextLine();
 				System.out.print("Senha: ");
 				String senha = scanner.nextLine();
 				usuarioLogado = diario.autenticarUsuario(username, senha);
 				if (usuarioLogado != null) {
 					autenticado_usuario = true;
-					System.out.println("Login bem-sucedido!\n");
+					System.out.println("\nLogin bem-sucedido!");
+					Diario.login(usuarioLogado);
 				} 
 				else {
-					System.out.println("Login falhou. Tente novamente.\n");
+					System.out.println("\nLogin falhou. Tente novamente.\n");
 				}
 			}
-		}
+				else {
+					System.out.print("\nDesculpa, não entendemos o que você digitou, TENTE NOVAMENTE!\n\n");
+				}
+        }
         
-        while (true) {
+        while(autenticado_usuario){
             System.out.println("\nDiário de Bordo");
+            if (usuarioLogado.isAdmin()) {
+            	System.out.println("001. ADM Visualizar Entradas");
+            	System.out.println("002. ADM Sobreescrever Entradas");
+            	System.out.println("003. ADM Deletar Entradas");
+            	System.out.println("002. ADM Continuar Escrever Entradas");
+            }
             System.out.println("1. Adicionar Entrada");
             System.out.println("2. Visualizar Entradas");
             System.out.println("3. Pesquisar Entradas");
             System.out.println("4. Contar Palavras nas Entradas");
-            System.out.println("5. Sair");
-            if (usuarioLogado.isAdmin()) {
-            	System.out.println("6. ADM Visualizar Entradas");
-            }
+            System.out.println("5. Logout");
+            System.out.println("6. Sair do Diário");
             System.out.print("Escolha uma opção: ");
             
             String opcao = scanner.nextLine();
 
             switch (opcao) {
+            	case "001":
+            		if (usuarioLogado.isAdmin()) {
+            			diario.visualizarEntradasAdmin();
+            		} else {
+            			System.out.println("\nOpção inválida. Tente novamente.");
+            		}
+                break;
+            	case "002":
+            		if (usuarioLogado.isAdmin()) {
+            			diario.visualizarEntradasAdmin();
+            			System.out.print("\nDigite o indice do usuario: ");
+            			int indice = scanner.nextInt();
+            			scanner.nextLine();
+            			System.out.print("Digite uma nova entrada: ");
+            			String novaEntrada = scanner.nextLine();
+            			diario.editarEntradasAdmin(indice, novaEntrada);
+            		} else {
+            			System.out.println("Opção inválida. Tente novamente.");
+            		}
+                break;
+            	case "003":
+            		if (usuarioLogado.isAdmin()) {
+            			diario.visualizarEntradasAdmin();
+            			System.out.print("\nDigite o indice do usuario: ");
+            			int indice = scanner.nextInt();
+            			scanner.nextLine();
+            			diario.deletarEntradasAdmin(indice);
+            			diario.visualizarEntradasAdmin();
+            		} else {
+            			System.out.println("Opção inválida. Tente novamente.");
+            		}
+                break;
                 case "1":
-                    System.out.println("Escreva sua entrada (linha em branco para terminar):");
+                    System.out.println("\nEscreva sua entrada (linha em branco para terminar):");
                     StringBuilder entrada = new StringBuilder();
                     String linha;
                     while (!(linha = scanner.nextLine()).isEmpty()) {
@@ -65,38 +110,35 @@ public class Principal {
                 	diario.visualizarEntradas();
                     break;
                 case "3":
-                    System.out.print("Digite a palavra-chave para pesquisar: ");
+                    System.out.print("\nDigite a palavra-chave para pesquisar: ");
                     String palavraChave = scanner.nextLine();
                     diario.pesquisarEntradas(palavraChave);
                     break;
                 case "4":
                 	int Qntd_Palavras = diario.contarPalavrasTotais();
-                	if(Qntd_Palavras == -3) {
-                		Qntd_Palavras = 0;
-                		System.out.print("O total de palavras escritas na entrada são: " + Qntd_Palavras);
+                	if(Qntd_Palavras == 0){
+                		System.out.print("\nNão há entradas escritas no diário\n");
                 	}
-                	else if(Qntd_Palavras == -2) {
-                		Qntd_Palavras = 1;
-                		System.out.print("O total de palavras escritas na entrada são: " + Qntd_Palavras);
-                	}
-                	else if(Qntd_Palavras == -1) {
-                		Qntd_Palavras = 2;
-                		System.out.print("O total de palavras escritas na entrada são: " + Qntd_Palavras);
-                	}
-                	else{
-                		System.out.print("O total de palavras escritas na entrada são: " + Qntd_Palavras);
+                	else {
+                		System.out.print("\nHá " + Qntd_Palavras + " palavra(s) escrita(s) no diário.\n");
                 	}
                 	break;
                 case "5":
-                    System.out.println("Saindo do Diário de Bordo...");
-                    return;
-                case "6":
-                	diario.visualizarEntradasAdmin();
+                    Diario.logout();
+                    autenticado_usuario = false;
                     break;
+                case "6":
+                	Diario.logout();
+                	autenticado_usuario = false;
+                	rodando = false;
+                	System.out.println("Saindo do Diário de Bordo...\n");
+                	break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
                     break;
-            }
-        }
-    }
+        		}
+        	}
+		}
+    scanner.close();
+	}
 }

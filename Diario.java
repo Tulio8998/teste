@@ -45,9 +45,21 @@ public class Diario {
     }
     
     public void registrarUsuario(String username, String senha, boolean isAdmin) {
-        Usuario usuario = new Usuario(username, senha, isAdmin);
-        usuarios.add(usuario);
-    }
+    	boolean nomeDoUsuarioExiste = false;
+        for (Usuario u : usuarios) {
+	        if (u.getUsername().equals(username)) {
+	        	nomeDoUsuarioExiste = true;
+	        	break;
+	        	}
+	        }
+        	if (nomeDoUsuarioExiste) {
+        		System.out.println("\nEste nome de usuario já esta sendo utilizado, por favor escolha outro.\n");
+        	} else {
+	    			Usuario usuario = new Usuario(username, senha, isAdmin);
+		        	usuarios.add(usuario);
+		        	System.out.println("\nUsuário registrado com sucesso!\n");
+		        	}
+   }
     
     public Usuario autenticarUsuario(String username, String senha) {
         for (Usuario usuario : usuarios) {
@@ -91,25 +103,59 @@ public class Diario {
         }
     }
 	
-	public void editarEntradasAdmin (int indice, String novaEntrada) {
-		if (indice < 0 || indice >= entradas.size()) {
-			System.out.println("Índice de entrada inválido ou não há entradas para sobrescrever");
-		} else {
-			EntradaDiario entrada = entradas.get(indice);
-			entrada.setTexto(novaEntrada);
-			System.out.println("Entrada editada com sucesso.");
-		}
-		
+	public void sobreescreverEntradasAdmin (String usuario, String novaEntrada) {
+		boolean nomeDoUsuarioExiste = false;
+		for (int i = entradas.size() - 1; i >= 0; i--) {
+			EntradaDiario entrada = entradas.get(i);
+        	if (entrada.getAutor().getUsername().equals(usuario)) {
+        		entrada.setTexto(novaEntrada);
+        		nomeDoUsuarioExiste = true;
+        		System.out.println("Entrada editada com sucesso.");
+        		break;
+        	}
+        }
+        	if (!nomeDoUsuarioExiste) {
+        		System.out.println("Usuario inválido ou não há entradas para sobrescrever");
+        	}   
+        	
 	}
 	
-	public void deletarEntradasAdmin (int indice) {
-		if (indice < 0 || indice >= entradas.size()) {
-			System.out.println("\nÍndice de entrada inválido.");
-		} else {
-			entradas.remove(indice);
-			System.out.println("Entrada removida com sucesso.");
-		}
-		
+	public void deletarEntradasAdmin (String usuario) {
+		boolean nomeDoUsuarioExiste = false;
+		List<EntradaDiario> removerEntradas =  new ArrayList<>();
+		 for (int i = entradas.size() - 1; i >= 0; i--) {
+		    EntradaDiario entrada = entradas.get(i);
+        	if (entrada.getAutor().getUsername().equals(usuario)) {
+        		removerEntradas.add(entrada);
+        		nomeDoUsuarioExiste = true;
+        		break;
+        	}
+        }
+        entradas.removeAll(removerEntradas);
+        
+        	if (nomeDoUsuarioExiste) {
+        		System.out.println("Entradas removidas.");
+        	} else {
+        		System.out.println("Usuario inválido ou o diario esta vazio.");
+        	}
+
+	}
+	
+	public void continuarEntradasAdmin (String usuario, String novaEntrada) {
+		boolean nomeDoUsuarioExiste = false;
+		 for (int i = entradas.size() - 1; i >= 0; i--) {
+		    EntradaDiario entrada = entradas.get(i);
+        	if (entrada.getAutor().getUsername().equals(usuario)) {
+        		entrada.setTexto(entrada.getTexto() + "\n" + novaEntrada);
+        		nomeDoUsuarioExiste = true;
+        		System.out.println("Entrada editada com sucesso.");
+        		break;
+        	}
+        }
+        	if (!nomeDoUsuarioExiste) {
+        		System.out.println("Usuario inválido");
+        	}   
+        	
 	}
 	
     public void visualizarEntradas() {

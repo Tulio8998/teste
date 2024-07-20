@@ -78,7 +78,7 @@ public class Principal {
             			String username = scanner.nextLine();
             			System.out.print("Digite uma nova entrada: ");
             			String novaEntrada = scanner.nextLine();
-            			diario.sobreescreverEntradasAdmin(username, novaEntrada);
+            			diario.sobrescreverEntradasAdmin(username, novaEntrada);
             		} else {
             			System.out.println("Opção inválida. Tente novamente.");
             		}

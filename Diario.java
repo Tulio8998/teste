@@ -103,7 +103,7 @@ public class Diario {
         }
     }
 	
-	public void sobreescreverEntradasAdmin (String usuario, String novaEntrada) {
+	public void sobrescreverEntradasAdmin (String usuario, String novaEntrada) {
 		boolean nomeDoUsuarioExiste = false;
 		for (int i = entradas.size() - 1; i >= 0; i--) {
 			EntradaDiario entrada = entradas.get(i);

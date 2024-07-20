@@ -49,7 +49,7 @@ public class Principal {
             System.out.println("\nDiário de Bordo");
             if (usuarioLogado.isAdmin()) {
             	System.out.println("001. ADM Visualizar Entradas");
-            	System.out.println("002. ADM Sobreescrever Entradas");
+            	System.out.println("002. ADM Sobrescrever Entradas");
             	System.out.println("003. ADM Continuar Escrever Entradas");
             	System.out.println("004. ADM Deletar Entradas");
             }

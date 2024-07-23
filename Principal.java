@@ -1,5 +1,4 @@
 package ATV1;
-
 import java.util.Scanner;
 
 public class Principal {
@@ -15,6 +14,7 @@ public class Principal {
         	System.out.println("Olá, seja bem vindo ao Diário Virtual!");
 			System.out.println("1. Registrar novo usuário");
 			System.out.println("2. Login");
+			System.out.println("3. Sair do Diário");
 			System.out.print("Escolha uma opção: ");
 			String opcao1 = scanner.nextLine();
 			switch (opcao1) {
@@ -26,7 +26,7 @@ public class Principal {
 					diario.registrarUsuario(username, senha, false);
 					break;
 				case "2":
-					System.out.print("\nNome de usuário: ");
+					System.out.print("Nome de usuário: ");
 					username = scanner.nextLine();
 					System.out.print("Senha: ");
 					senha = scanner.nextLine();
@@ -40,17 +40,23 @@ public class Principal {
 						System.out.println("\nLogin falhou. Tente novamente.\n");
 					}
 					break;
+				case "3":
+					System.out.println("Muito obrigado por usar o diário e volte sempre :)");
+                	System.out.println("Saindo do Diário de Bordo...\n");
+                	autenticado_usuario = false;
+                	rodando = false;					
+                	return;
 				default: 
 						System.out.print("\nDesculpa, não entendemos o que você digitou, TENTE NOVAMENTE!\n\n");
 					break;
-	        }
+			}
         }
         while(autenticado_usuario){
             System.out.println("\nDiário de Bordo");
             if (usuarioLogado.isAdmin()) {
             	System.out.println("001. ADM Visualizar Entradas");
-            	System.out.println("002. ADM Sobrescrever Entradas");
-            	System.out.println("003. ADM Continuar Escrever Entradas");
+            	System.out.println("002. ADM Substituir Entradas");
+            	System.out.println("003. ADM Sobrescrever Entradas");
             	System.out.println("004. ADM Deletar Entradas");
             }
             System.out.println("1. Adicionar Entrada");
@@ -68,7 +74,7 @@ public class Principal {
             		if (usuarioLogado.isAdmin()) {
             			diario.visualizarEntradasAdmin();
             		} else {
-            			System.out.println("\nOpção inválida. Tente novamente.");
+            			System.out.println("Opção inválida. Tente novamente.\n");
             		}
                 break;
             	case "002":
@@ -78,7 +84,7 @@ public class Principal {
             			String username = scanner.nextLine();
             			System.out.print("Digite uma nova entrada: ");
             			String novaEntrada = scanner.nextLine();
-            			diario.sobrescreverEntradasAdmin(username, novaEntrada);
+            			diario.substituirEntradasAdmin(username, novaEntrada);
             		} else {
             			System.out.println("Opção inválida. Tente novamente.");
             		}
@@ -88,9 +94,9 @@ public class Principal {
             			diario.visualizarEntradasAdmin();
             			System.out.print("\nDigite o usuario que deseja modificar a entrada: ");
             			String username = scanner.nextLine();
-            			System.out.print("Adicione uma nova entrada: ");
+            			System.out.print("Adicione uma nova entrada sobre a do usuário: ");
             			String novaEntrada = scanner.nextLine();
-            			diario.continuarEntradasAdmin(username, novaEntrada);
+            			diario.sobrescreverEntradasAdmin(username, novaEntrada);
             		} else {
             			System.out.println("Opção inválida. Tente novamente.");
             		}
@@ -129,7 +135,7 @@ public class Principal {
                 		System.out.print("\nNão há entradas escritas no diário\n");
                 	}
                 	else {
-                		System.out.print("\nHá " + Qntd_Palavras + " palavra(s) escrita(s) no diário.\n");
+                		System.out.print("Há " + Qntd_Palavras + " palavra(s) escrita(s) no diário.\n");
                 	}
                 	break;
                 case "5":

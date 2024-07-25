@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-// Classe principal do diário
+// Classe principal do "diário"
 public class Diario {
 	// Lista de entradas do diário
 	private List<EntradaDiario> entradas;
@@ -95,7 +95,7 @@ public class Diario {
     
     // Realiza o logout do usuário atual
     public static void logout() {
-    	System.out.println("Usuário " + usuarioAtual.getUsername() + " se deslogou do Diário\n");
+    	System.out.println("\nUsuário " + usuarioAtual.getUsername() + " deslogou do Diário\n");
     }
  
     // Adiciona uma nova entrada ao diário
@@ -173,7 +173,7 @@ public class Diario {
         	}
         }
         	if (!nomeDoUsuarioExiste) {
-        		System.out.println("Usuario inválido");
+        		System.out.println("Usuario inválido ou o diario esta vazio.");
         	}   
         	
 	}
